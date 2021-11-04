@@ -52,6 +52,24 @@ class App extends Component {
     this.setState({ contacts: resultedContactsList });
   };
 
+  componentDidUpdate() {
+    console.log('-=DidUpdate=-');
+    this.setState(({ contacts }) => {
+      if (contacts !== this.setState['contacts']) {
+        localStorage.setItem('phoneBook', JSON.stringify(contacts));
+      }
+    });
+  }
+  componentDidMount() {
+    console.log('-=DidMount=-');
+    const localStorageData = localStorage.getItem('phoneBook');
+    if (localStorageData) {
+      this.setState({ contacts: JSON.parse(localStorageData) });
+    } else {
+      localStorage.setItem('phoneBook', JSON.stringify(this.state.contacts));
+    }
+  }
+
   render() {
     return (
       <div className="App">
